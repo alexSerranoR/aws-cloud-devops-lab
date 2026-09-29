@@ -1,5 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+import os
+
+environment = os.getenv("APP_ENV", "local")
 
 tasks = [
     {
@@ -86,3 +89,10 @@ def delete_task(task_id: int):
         status_code=404,
         detail="Task not found"
     )
+
+@app.get("/info")
+def info():
+    return {
+        "environment": environment,
+        "version": "0.1.0"
+    }
